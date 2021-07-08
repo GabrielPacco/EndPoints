@@ -11,6 +11,29 @@ task_blueprint = Blueprint('task_blueprint', __name__)
 
 model = TaskModel()
 
+@task_blueprint.route('/task/add_student', methods=['POST'])
+@cross_origin()
+def create_task():
+    content = model.add_student(request.json['Apellidos'], request.json['Nombres'], request.json['Correo'], request.json['Ciudad'], request.json['Foto'])
+    return jsonify(content)
+
+@task_blueprint.route('/task/delete_student', methods=['POST'])
+@cross_origin()
+def delete_task():
+    return jsonify(model.delete_student(int(request.json['CUI'])))
+
+@task_blueprint.route('/task/get_student', methods=['POST'])
+@cross_origin()
+def task():
+    return jsonify(model.get_student(int(request.json['CUI'])))
+
+@task_blueprint.route('/task/get_students', methods=['POST'])
+@cross_origin()
+def tasks():
+    return jsonify(model.get_students())
+
+
+#######################################
 
 
 @task_blueprint.route('/task/add_teacher', methods=['POST'])
@@ -73,3 +96,32 @@ def tasks_5():
 def delete_task_5():
     return jsonify(model.delete_group((request.json['Grupo'])))
 
+
+######################################
+
+
+@task_blueprint.route('/task/add_assitance', methods=['POST'])
+@cross_origin()
+def create_task_3():
+    content = model.add_assistance(request.json['ASISTENCIA'], request.json['Fecha'], request.json['Asistencias'], request.json['Faltas'])
+    return jsonify(content)
+
+@task_blueprint.route('/task/get_assistance', methods=['POST'])
+@cross_origin()
+def taskID_3():
+    return jsonify(model.get_assistance_ID(int(request.json['ID'])))
+
+@task_blueprint.route('/task/get_assistance_ID', methods=['POST'])
+@cross_origin()
+def taskD_3():
+    return jsonify(model.get_assistance_date((request.json['Fecha'])))
+
+@task_blueprint.route('/task/get_assitances', methods=['POST'])
+@cross_origin()
+def tasks_3():
+    return jsonify(model.get_assistances())
+
+@task_blueprint.route('/task/delete_assistance', methods=['POST'])
+@cross_origin()
+def delete_task_3():
+    return jsonify(model.delete_assistance((request.json['Fecha'])))
