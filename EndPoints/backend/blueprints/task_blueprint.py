@@ -11,23 +11,65 @@ task_blueprint = Blueprint('task_blueprint', __name__)
 
 model = TaskModel()
 
-@task_blueprint.route('/task/create_task', methods=['POST'])
+
+
+@task_blueprint.route('/task/add_teacher', methods=['POST'])
 @cross_origin()
-def create_task():
-    content = model.create_task(request.json['title'], request.json['description'])    
+def create_task_2():
+    content = model.add_teacher(request.json['Apellidos'], request.json['Nombres'], request.json['Correo'], request.json['Ciudad'])
     return jsonify(content)
 
-@task_blueprint.route('/task/delete_task', methods=['POST'])
+@task_blueprint.route('/task/delete_teacher', methods=['POST'])
 @cross_origin()
-def delete_task():
-    return jsonify(model.delete_task(int(request.json['id'])))
+def delete_task_2():
+    return jsonify(model.delete_teacher(int(request.json['CUI'])))
 
-@task_blueprint.route('/task/get_task', methods=['POST'])
+@task_blueprint.route('/task/get_teacher', methods=['POST'])
 @cross_origin()
-def task():
-    return jsonify(model.get_task(int(request.json['id'])))
+def task_2():
+    return jsonify(model.get_teacher(int(request.json['CUI'])))
 
-@task_blueprint.route('/task/get_tasks', methods=['POST'])
+@task_blueprint.route('/task/get_teachers', methods=['POST'])
 @cross_origin()
-def tasks():
-    return jsonify(model.get_tasks())
+def tasks_2():
+    return jsonify(model.get_teachers())
+
+
+#############################################
+
+@task_blueprint.route('/task/add_course', methods=['POST'])
+@cross_origin()
+def create_task_4():
+    content = model.add_course(request.json['Nombre'])
+    return jsonify(content)
+
+@task_blueprint.route('/task/get_courses', methods=['POST'])
+@cross_origin()
+def tasks_4():
+    return jsonify(model.get_courses())
+
+@task_blueprint.route('/task/delete_course', methods=['POST'])
+@cross_origin()
+def delete_task_4():
+    return jsonify(model.delete_course((request.json['Nombre'])))
+
+
+#############################################
+
+
+@task_blueprint.route('/task/add_group', methods=['POST'])
+@cross_origin()
+def create_task_5():
+    content = model.add_group(request.json['Grupo'])
+    return jsonify(content)
+
+@task_blueprint.route('/task/get_groups', methods=['POST'])
+@cross_origin()
+def tasks_5():
+    return jsonify(model.get_groups())
+
+@task_blueprint.route('/task/delete_group', methods=['POST'])
+@cross_origin()
+def delete_task_5():
+    return jsonify(model.delete_group((request.json['Grupo'])))
+

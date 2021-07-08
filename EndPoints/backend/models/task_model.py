@@ -4,46 +4,77 @@ class TaskModel:
     def __init__(self):        
         self.mysql_pool = MySQLPool()
 
-    def get_task(self, id):    
-        params = {'id' : id}      
-        rv = self.mysql_pool.execute("SELECT * from task where id=%(id)s", params)                
+    
+
+##################################################
+
+
+    def get_courses(self):  
+        rv = self.mysql_pool.execute("SELECT * from cursos")  
         data = []
         content = {}
         for result in rv:
-            content = {'id': result[0], 'title': result[1], 'description': result[2]}
+            content = {'Curso': result[0]}
             data.append(content)
             content = {}
         return data
 
-    def get_tasks(self):  
-        rv = self.mysql_pool.execute("SELECT * from task")  
-        data = []
-        content = {}
-        for result in rv:
-            content = {'id': result[0], 'title': result[1], 'description': result[2]}
-            data.append(content)
-            content = {}
-        return data
-
-    def create_task(self, title, description):    
+    def add_course(self, Nombre):    
         params = {
-            'title' : title,
-            'description' : description
+            'Nombre' : Nombre
         }  
-        query = """insert into task (title, description) 
-            values (%(title)s, %(description)s)"""    
-        cursor = self.mysql_pool.execute(query, params, commit=True)   
+        query = """INSERT INTO cursos (Nombre) 
+            values (%(Nombre)s)"""
+                
+        cursor = self.mysql_pool.execute(query, params, commit=True) 
+        cursor.lastrowid
 
-        data = {'id': cursor.lastrowid, 'title': title, 'description': description}
+        data = {'Nombre': Nombre}
         return data
 
-    def delete_task(self, id):    
-        params = {'id' : id}      
-        query = """delete from task where id = %(id)s"""    
+    def delete_course(self, Nombre):    
+        params = {'Nombre' : Nombre}      
+        query = """delete from cursos where Nombre = %(Nombre)s"""    
         self.mysql_pool.execute(query, params, commit=True)   
 
-        data = {'result': 1}
+        data = {'Delete': 1}
         return data
+
+
+##################################################
+
+
+    def get_groups(self):  
+        rv = self.mysql_pool.execute("SELECT * from grupos")  
+        data = []
+        content = {}
+        for result in rv:
+            content = {'Grupo': result[0]}
+            data.append(content)
+            content = {}
+        return data
+
+    def add_group(self, Grupo):    
+        params = {
+            'Grupo' : Grupo
+        }  
+        query = """INSERT INTO grupos (Grupo) 
+            values (%(Grupo)s)"""
+                
+        cursor = self.mysql_pool.execute(query, params, commit=True) 
+        cursor.lastrowid
+
+        data = {'Grupo': Grupo}
+        return data
+
+    def delete_group(self, Grupo):    
+        params = {'Grupo' : Grupo}      
+        query = """delete from grupos where Grupo = %(Grupo)s"""    
+        self.mysql_pool.execute(query, params, commit=True)   
+
+        data = {'Delete': 1}
+        return data
+
 
 if __name__ == "__main__":    
     tm = TaskModel()     
